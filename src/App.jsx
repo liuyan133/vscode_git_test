@@ -17,14 +17,47 @@ export default class App extends Component {
       this.setState({todos:Newtodos})
     }
 
+    update = (id,done)=>{
+      const {todos} = this.state
+      const Newtodos = todos.map( todoObj =>{
+        if(todoObj.id === id) return {...todoObj,done:done}
+        else return todoObj
+      })
+      this.setState({todos:Newtodos})
+    }
+
+    deleteObj = (id)=>{
+      const {todos} = this.state
+      const Newtodos = todos.filter( todoObj =>{
+       return todoObj.id !== id;
+      })
+      this.setState({todos:Newtodos})
+    }
+
+    checkAll =(done)=>{
+      const {todos} = this.state
+      const Newtodos = todos.map( todoObj =>{
+       return {...todoObj,done}
+      })
+      this.setState({todos:Newtodos})
+    }
+
+    checkAllDone =()=>{
+      const {todos} = this.state
+      const Newtodos = todos.filter( todoObj =>{
+       return todoObj.done !== true
+      })
+      this.setState({todos:Newtodos})
+    }
+
     render() {
       const {todos} = this.state
       return (         
         <div className="todo-container">
           <div className="todo-wrap">
             <Header addTodo={this.addTodo}/>
-            <List todos={todos}/>
-            <Footer/>
+            <List todos={todos} update ={this.update} deleteObj ={this.deleteObj} />
+            <Footer todos={todos} checkAll={this.checkAll} checkAllDone={this.checkAllDone}/>
           </div>
         </div>
       )  
